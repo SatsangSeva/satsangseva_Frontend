@@ -69,6 +69,8 @@ const EventListing1 = () => {
     pinCode: "",
     startDate: "",
     endDate: "",
+    startTime: "",
+    endTime: "",
   });
 
   useEffect(() => {
@@ -181,57 +183,54 @@ const EventListing1 = () => {
 
     // If duration is 0 or negative, don't display anything
     if (days <= 1) {
-        setDuration(""); // Clear duration or leave empty
-        return;
+      setDuration(""); // Clear duration or leave empty
+      return;
     }
 
     // Generate the appropriate output string
     let durationText = "";
     if (days === 2) {
-        durationText = `1 day`; 
-    }
-    else{
-        durationText = `${days} days`; // Multiple days
+      durationText = `1 day`;
+    } else {
+      durationText = `${days} days`; // Multiple days
     }
 
     // Set the calculated duration
     setDuration(durationText);
-}
+  }
 
-function calculateDuration2() {
-  const startTime = formValues.startTime;
-  const endTime = formValues.endTime;
+  function calculateDuration2() {
+    const startTime = formValues.startTime;
+    const endTime = formValues.endTime;
 
-  // Create Date objects for start and end times on a dummy date
-  const start = new Date(`01/01/2007 ${startTime}`);
-  const end = new Date(`01/01/2007 ${endTime}`);
+    // Create Date objects for start and end times on a dummy date
+    const start = new Date(`01/01/2007 ${startTime}`);
+    const end = new Date(`01/01/2007 ${endTime}`);
 
-  // Calculate the time difference
-  const diff = end - start;
+    // Calculate the time difference
+    const diff = end - start;
 
-  // Prevent end time from being the same as start time
-  if (diff <= 0) {
+    // Prevent end time from being the same as start time
+    if (diff <= 0) {
       setDuration2(""); // No output if end time is the same or earlier than start time
       return;
+    }
+
+    // Calculate hours and minutes from the time difference
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    // Build the duration text
+    let duration2Text = `${hours} hour${hours > 1 ? "s" : ""}`;
+
+    // Only include minutes if they are not 0
+    if (minutes > 0) {
+      duration2Text += ` ${minutes} minute${minutes > 1 ? "s" : ""}`;
+    }
+
+    // Set the calculated duration
+    setDuration2(duration2Text);
   }
-
-  // Calculate hours and minutes from the time difference
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-  // Build the duration text
-  let duration2Text = `${hours} hour${hours > 1 ? 's' : ''}`;
-  
-  // Only include minutes if they are not 0
-  if (minutes > 0) {
-      duration2Text += ` ${minutes} minute${minutes > 1 ? 's' : ''}`;
-  }
-
-
-  // Set the calculated duration
-  setDuration2(duration2Text);
-}
-
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -245,7 +244,10 @@ function calculateDuration2() {
     }
     const startDateObj = new Date(formValues.startDate);
     const endDateObj = new Date(formValues.endDate);
-
+    const fullStartTimeString = `${formValues.startDate}T${formValues.startTime}:00+05:30`;
+    const fullEndTimeString = `${formValues.endDate}T${formValues.endTime}:00+05:30`;
+    const startDateTime = new Date(fullStartTimeString);
+    const endDateTime = new Date(fullEndTimeString);
     if (startDateObj >= endDateObj) {
       setLoading(false);
       return alert("Start date is equal or after End date");
@@ -291,10 +293,9 @@ function calculateDuration2() {
       ]
         .filter(Boolean)
         .join(", "),
-        startDate: formValues.startDate,
-        endDate: formValues.endDate,
-        startTime: formValues.startTime,
-        endTime: formValues.endTime,
+      startDate: fullStartTimeString,
+      endDate: fullEndTimeString,
+      
     };
     console.log(newData);
     const error = validateEventInputs(newData);
@@ -317,7 +318,7 @@ function calculateDuration2() {
       formValues.eventImages.slice(0, 3).forEach((image) => {
         formData.append("images", image);
       });
-     
+
       await axios
         .post(url + "/events", formData, { headers })
         .then((resp) => {
@@ -341,7 +342,6 @@ function calculateDuration2() {
       setLoading(false);
     }
   };
-  
 
   function validateEventInputs(inputs) {
     const errors = {};
@@ -740,7 +740,7 @@ function calculateDuration2() {
                         value={formValues.eventDesc}
                         onChange={handleInputChange}
                         placeholder="Enter Event Description (Max-5000 Characters.)"
-                        style={{height: "83px"}}
+                        style={{ height: "83px" }}
                       />
                       <p className="mt-2">
                         {maxLength - formValues.eventDesc.length} characters
@@ -1027,7 +1027,11 @@ function calculateDuration2() {
               <div className="w-[426px] flex flex-col items-start justify-start gap-[12px] max-w-full">
                 <div className="self-stretch flex flex-row items-start justify-center py-0 pr-[21px] pl-5">
                   <div className="relative leading-[24px] font-medium">
-                   <p>{duration} {" "} {"("}{duration2}{")"}{" "}Long Event  </p>
+                    <p>
+                      {duration} {"("}
+                      {duration2}
+                      {")"} Long Event{" "}
+                    </p>
                   </div>
                 </div>
                 <div

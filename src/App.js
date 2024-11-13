@@ -14,7 +14,7 @@ import Perticular from "./components/Perticular";
 import FrameComponent from "./components/FrameComponent";
 import PublicProfile from "./pages/PublicProfile";
 import About from "./pages/About";
-import ContactUs from "./pages/ContactUs";
+import ContactUs from "./pages/ContactUs2";
 import AddBlog from "./pages/AddBlog";
 import Blogs from "./pages/Blogs";
 import AdminPage from "./admin/AdminPage";

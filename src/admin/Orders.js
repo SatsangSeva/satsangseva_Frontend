@@ -30,19 +30,27 @@ const Orders = () => {
         setLoading(true);
         const response = await axios.get(url + '/events');
         const eventsData = response.data.events;
-        setEvents(eventsData);
 
-        // const initialCheckedEvents = eventsData.reduce((acc, event) => {
-        //   if (event.approved) {
-        //     acc[event._id] = true;
-        //   }
-        //   return acc;
-        // }, {});
+        // Filter for approved events with an end date greater than or equal to today
+        const today = new Date();
+        const filteredEvents = eventsData.filter(event => 
+          event.approved && new Date(event.endDate) >= today
+        );
 
-        // setCheckedEvents(prevCheckedEvents => ({
-        //   ...prevCheckedEvents,
-        //   ...initialCheckedEvents
-        // }));
+        setEvents(filteredEvents);
+        console.log(filteredEvents);
+
+        const initialCheckedEvents = filteredEvents.reduce((acc, event) => {
+          if (event.approved) {
+            acc[event._id] = true;
+          }
+          return acc;
+        }, {});
+
+        setCheckedEvents(prevCheckedEvents => ({
+          ...prevCheckedEvents,
+          ...initialCheckedEvents
+        }));
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -198,6 +206,7 @@ const Orders = () => {
               <th scope="col">View</th>
               <th scope="col">Delete</th>
               <th scope="col">Approve</th>
+              {/* <th  scope="col">Approval Time</th> */}
             </tr>
           </thead>
           <tbody>
@@ -247,6 +256,7 @@ const Orders = () => {
                     onChange={() => handleCheckboxChange(event._id)}
                   />
                 </td>
+                {/* <td>{event.approvalTime}</td> */}
               </tr>
             )) : (
               <tr>

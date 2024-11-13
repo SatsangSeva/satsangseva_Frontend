@@ -178,26 +178,14 @@ const Approve = () => {
                     </a>
                   </td>
                   <td>
-                    {new Date(event.startDate).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}{" "}
-                    {/* {new Date(event.startTime).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
+                    {new Date(event.startDate).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                    })}
                   </td>
                   <td>
-                    {new Date(event.endDate).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}{" "}
-                    {/* {new Date(event.endTime).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
+                    {new Date(event.endDate).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                    })}
                   </td>
 
                   {/* <td>{new Date(event.startDate).toLocaleDateString()}</td>
