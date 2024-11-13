@@ -30,7 +30,8 @@ const Orders = () => {
         setLoading(true);
         const response = await axios.get(url + '/events');
         const eventsData = response.data.events;
-
+        console.log(eventsData);
+        
         // Filter for approved events with an end date greater than or equal to today
         const today = new Date();
         const filteredEvents = eventsData.filter(event => 

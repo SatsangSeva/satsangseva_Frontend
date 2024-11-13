@@ -29,25 +29,29 @@ const ContactUs2 = () => {
 
   return (
     <div style={{ marginTop: "-5rem" }}
-    className="w-full relative bg-white overflow-hidden flex flex-col items-end justify-start py-0 px-px box-border leading-[normal] tracking-[normal]"
-  >
+      className="w-full relative bg-white overflow-hidden flex flex-col items-end justify-start py-0 px-px box-border leading-[normal] tracking-[normal]"
+    >
       <FirstFold1 />
       <form ref={formRef} onSubmit={sendEmail} className="py-5 self-stretch flex flex-col items-center justify-center box-border max-w-full">
         {/* Form fields */}
-        <div  className="md:container p-5 md:mx-auto mq750:!p-5 mq750:!py-[40px]"
+        <div className="md:container p-5 md:mx-auto mq750:!p-5 mq750:!py-[40px]"
           style={{ border: "1px solid #333", borderRadius: "2rem" }}>
           <h1>Contact <span style={{ color: "#D26600" }}>US</span></h1>
-          {/* First Name */}
-          <input placeholder="Enter First Name" type="text" name="firstName" required maxLength="50" />
-          {/* Last Name */}
-          <input placeholder="Enter Last Name" type="text" name="lastName" required maxLength="50" />
-          {/* Email */}
-          <input placeholder="Enter Email Address" type="email" name="email" required maxLength="50" />
-          {/* Phone */}
-          <input placeholder="+91-XXXXX-XXXXX" type="tel" name="phone" required maxLength="50" />
+          <div className="w-full h-auto flex justify-between items-center my-3">
+            {/* First Name */}
+            <input placeholder="Enter First Name" type="text" name="firstName" required maxLength="50" className="border-[1px] border-gray-300 p-2 outline-none rounded-md w-[48%]" />
+            {/* Last Name */}
+            <input placeholder="Enter Last Name" type="text" name="lastName" required maxLength="50" className="border-[1px] border-gray-300 p-2 outline-none rounded-md w-[48%]" />
+          </div>
+          <div className="w-full h-auto flex justify-between items-center my-3">
+            {/* Email */}
+            <input placeholder="Enter Email Address" type="email" name="email" required maxLength="50" className="border-[1px] border-gray-300 p-2 outline-none rounded-md w-[48%]" />
+            {/* Phone */}
+            <input placeholder="+91-XXXXX-XXXXX" type="tel" name="phone" required maxLength="50" className="border-[1px] border-gray-300 p-2 outline-none rounded-md w-[48%]" />
+          </div>
           {/* Message */}
-          <textarea placeholder="Write your message..." name="msg" rows="5" maxLength={2000}></textarea>
-          <button type="submit" style={{ backgroundColor: "#FFCBA4" }}>Send mail</button>
+          <textarea placeholder="Write your message..." name="msg" rows="5" maxLength={2000} className="border-[1px] border-gray-300 p-2 outline-none rounded-md w-full resize-none"></textarea>
+          <button type="submit" className="mt-4 px-4 py-1.5 rounded-lg" style={{ backgroundColor: "#FFCBA4" }}>Send mail</button>
         </div>
       </form>
       <Footer />

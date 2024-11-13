@@ -62,6 +62,7 @@ const Approve = () => {
 
   const confirmApprove = async () => {
     // console.log('Approved event ID:', currentEventId);
+
     setLoading(true);
     await axios
       .put(url + "/admin/approve/" + currentEventId)
