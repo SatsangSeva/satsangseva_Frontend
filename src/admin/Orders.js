@@ -277,26 +277,14 @@ const Orders = () => {
                   <td>{event.eventName}</td>
                   <td>{event.hostName}</td>
                   <td>
-                    {new Date(event.startDate).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}{" "}
-                    {/* {new Date(event.startTime).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
+                    {new Date(event.startDate).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                    })}
                   </td>
                   <td>
-                    {new Date(event.endDate).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}{" "}
-                    {/* {new Date(event.endTime).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
+                    {new Date(event.endDate).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                    })}
                   </td>
                   {/* <td><a href={event.location} target="_blank" rel="noopener noreferrer">Map</a></td> */}
                   <td>
@@ -392,27 +380,15 @@ const Orders = () => {
                 <td>{event.eventName}</td>
                 <td>{event.hostName}</td>
                 <td>
-                  {new Date(event.startDate).toLocaleDateString("en-IN", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}{" "}
-                  {/* {new Date(event.startTime).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
-                </td>
-                <td>
-                  {new Date(event.endDate).toLocaleDateString("en-IN", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}{" "}
-                  {/* {new Date(event.endTime).toLocaleTimeString("en-IN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })} */}
-                </td>
+                    {new Date(event.startDate).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                    })}
+                  </td>
+                  <td>
+                    {new Date(event.endDate).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                    })}
+                  </td>
                 {/* <td><a href={event.location} target="_blank" rel="noopener noreferrer">Map</a></td> */}
                 <td>
                   {event.eventPrice === "0" ? "Free" : `₹${event.eventPrice}`}
