@@ -97,37 +97,55 @@ const EventListing = ({ className = "" }) => {
     // }
   }, [position]);
 
-
   const fetchNearBy = async () => {
     setLoading(true);
-    await axios.get(url + "/event/nearby?long=" + position.longitude + "&lat=" + position.latitude)
-      .then((resp) => {
-        // Get today's date
-        const today = new Date();
+    try {
+      // Make the API request
+      const resp = await axios.get(url + "/event/nearby?long=" + position.longitude + "&lat=" + position.latitude);
   
-        // Filter events where endDate is greater than today
-        const validEvents = resp.data.events.filter(event => {
-          const eventEndDate = new Date(event.endDate);
-          return eventEndDate >= today;
-        });
+      // Log the full response object for debugging purposes
+      console.log("Full API Response:", resp);
   
-        if (validEvents.length > 0) {
-          setEvents(validEvents);
-          setFilteredEvents(validEvents);
-        } else {
-          alert("No Upcoming Events Found");
-          setEvents(null);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        alert("No Events Found");
+      // Get today's date
+      const today = new Date();
+  
+      // Check if events data exists in the response
+      if (!resp?.data?.events) {
+        console.error("Error: 'events' data is missing in the API response.");
+        alert("No events data found in the response.");
         setEvents(null);
-      })
-      .finally(() => {
-        setLoading(false);
+        return;
+      }
+  
+      // Filter events where endDate is greater than or equal to today and approved is true
+      const validEvents = resp.data.events.filter(event => {
+        const eventEndDate = new Date(event.endDate);
+        return eventEndDate >= today && event.approved === true;
       });
-  }
+  
+      if (validEvents.length > 0) {
+        setEvents(validEvents);
+        setFilteredEvents(validEvents);
+      } else {
+        alert("No Upcoming Approved Events Found");
+        setEvents(null);
+      }
+    } catch (e) {
+      // Check for server error (500) specifically
+      if (e.response?.status === 500) {
+        console.error("Server error (500):", e);
+        alert("There was a server error retrieving events. Please try again later.");
+      } else {
+        console.error("Error fetching events:", e);
+        alert("An error occurred while fetching events.");
+      }
+      setEvents(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  
   
 
 
