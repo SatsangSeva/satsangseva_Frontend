@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../Csss/Orders.css';
-import SearchAndFilters from '../components/SearchAndFilters';
-import Edit from '@mui/icons-material/BorderColorTwoTone';
-import Delete from '@mui/icons-material/DeleteForeverTwoTone';
-import View from '@mui/icons-material/VisibilityTwoTone';
-import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
-import Loader from '../components/Loader';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../Csss/Orders.css";
+import SearchAndFilters from "../components/SearchAndFilters";
+import Edit from "@mui/icons-material/BorderColorTwoTone";
+import Delete from "@mui/icons-material/DeleteForeverTwoTone";
+import View from "@mui/icons-material/VisibilityTwoTone";
+import { useNavigate } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
+import Loader from "../components/Loader";
 
 const Orders = () => {
   const url = process.env.REACT_APP_BACKEND;
@@ -32,31 +32,31 @@ const Orders = () => {
   //       const response = await axios.get(url + '/events');
   //       const eventsData = response.data.events;
   //       console.log(eventsData);
-  
+
   //       // Get today's date at the start of the day (no time component)
   //       const today = new Date();
   //       console.log(today);
   //       today.setHours(0, 0, 0, 0); // Set to midnight to avoid time comparison issues
-  
+
   //       // Filter for approved events with an end date greater than or equal to today
   //       const filteredEvents = eventsData.filter(event => {
   //         const eventEndDate = new Date(event.endDate);
   //         console.log(eventEndDate)
   //         eventEndDate.setHours(0, 0, 0, 0); // Set to midnight to compare only the date
-  
+
   //         // Compare only the date (ignoring time component)
   //         return event.approved && eventEndDate >= today;
   //       });
-  
+
   //       setEvents(filteredEvents);
   //       console.log("Filtered Events:", filteredEvents);
-  
+
   //       // Initialize checked events based on filtered events
   //       const initialCheckedEvents = filteredEvents.reduce((acc, event) => {
   //         acc[event._id] = true; // Only approved events are included
   //         return acc;
   //       }, {});
-  
+
   //       setCheckedEvents(prevCheckedEvents => ({
   //         ...prevCheckedEvents,
   //         ...initialCheckedEvents
@@ -67,54 +67,55 @@ const Orders = () => {
   //       setLoading(false); // Ensure loading state is updated in all cases
   //     }
   //   };
-  
+
   //   fetchEvents();
   // }, []);
-   
+
   useEffect(() => {
     const fetchLatestEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(url + '/events/latest');  // Use the 'latest' endpoint
+        const response = await axios.get(url + "/events/latest"); // Use the 'latest' endpoint
         const latestEventsData = response.data.events;
-  
+
         // Filter for events that are approved and have endDate greater than or equal to today
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Remove the time component for comparison
-        const filteredLatestEvents = latestEventsData.filter(event => 
-          event.approved && new Date(event.endDate) >= today
+        const filteredLatestEvents = latestEventsData.filter(
+          (event) => event.approved && new Date(event.endDate) >= today
         );
-  
+
         setLatestEvents(filteredLatestEvents);
-  
+
         // Set initial checked events based on the filtered latest events
-        const initialCheckedEvents = filteredLatestEvents.reduce((acc, event) => {
-          if (event.approved) {
-            acc[event._id] = true;
-          }
-          return acc;
-        }, {});
-  
-        setCheckedEvents(prevCheckedEvents => ({
+        const initialCheckedEvents = filteredLatestEvents.reduce(
+          (acc, event) => {
+            if (event.approved) {
+              acc[event._id] = true;
+            }
+            return acc;
+          },
+          {}
+        );
+
+        setCheckedEvents((prevCheckedEvents) => ({
           ...prevCheckedEvents,
-          ...initialCheckedEvents
+          ...initialCheckedEvents,
         }));
       } catch (error) {
-        console.error('Error fetching latest events:', error);
+        console.error("Error fetching latest events:", error);
       }
       setLoading(false);
     };
-  
+
     fetchLatestEvents();
   }, []);
-  
-  
 
   useEffect(() => {
     const fetchPastEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(url + '/events/past');
+        const response = await axios.get(url + "/events/past");
         const pastEventsData = response.data.events;
         setPastEvents(pastEventsData);
 
@@ -125,12 +126,12 @@ const Orders = () => {
           return acc;
         }, {});
 
-        setCheckedEvents(prevCheckedEvents => ({
+        setCheckedEvents((prevCheckedEvents) => ({
           ...prevCheckedEvents,
-          ...initialCheckedEvents
+          ...initialCheckedEvents,
         }));
       } catch (error) {
-        console.error('Error fetching past events:', error);
+        console.error("Error fetching past events:", error);
       }
       setLoading(false);
     };
@@ -144,7 +145,7 @@ const Orders = () => {
   };
 
   const handleClick = (id) => {
-    navigate('/live-event?q=' + id);
+    navigate("/live-event?q=" + id);
   };
 
   const handleBookingsClick = (eventId, eventName) => {
@@ -152,7 +153,7 @@ const Orders = () => {
   };
 
   const handleEditClick = (event) => {
-    navigate('/admin/updateform', { state: { eventData: event } });
+    navigate("/admin/updateform", { state: { eventData: event } });
   };
 
   const handleDeleteClick = (eventId) => {
@@ -173,22 +174,26 @@ const Orders = () => {
   const confirmDelete = async () => {
     // console.log(`Deleting event: ${checkedEventId}`);
     setLoading(true);
-    await axios.delete(url + "/events/" + checkedEventId).then((resp) => {
-      // console.log(resp);
-      setEvents(events.filter(item => item._id !== checkedEventId));
-      alert("Event Deleted Successfully!");
-    }).catch((e) => {
-      console.log(e);
-      alert("Error in Deleting Event. Try again later");
-    }).finally(() => {
-      setLoading(false);
-    })
+    await axios
+      .delete(url + "/events/" + checkedEventId)
+      .then((resp) => {
+        // console.log(resp);
+        setEvents(events.filter((item) => item._id !== checkedEventId));
+        alert("Event Deleted Successfully!");
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("Error in Deleting Event. Try again later");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     setCheckedEventId(null);
     setShowDeleteDialog(false);
   };
 
   const cancelDelete = () => {
-    console.log('Delete canceled');
+    console.log("Delete canceled");
     setShowDeleteDialog(false);
   };
 
@@ -198,29 +203,33 @@ const Orders = () => {
   };
 
   const confirmApprove = () => {
-    console.log('Approved event ID:', currentEventId);
-    setCheckedEvents(prev => ({ ...prev, [currentEventId]: true }));
+    console.log("Approved event ID:", currentEventId);
+    setCheckedEvents((prev) => ({ ...prev, [currentEventId]: true }));
     setShowApproveDialog(false);
   };
 
   const confirmCancel = () => {
-    console.log('Canceled event ID:', currentEventId);
-    setCheckedEvents(prev => ({ ...prev, [currentEventId]: false }));
+    console.log("Canceled event ID:", currentEventId);
+    setCheckedEvents((prev) => ({ ...prev, [currentEventId]: false }));
     setShowCancelDialog(false);
   };
 
   const confirmUncheck = async () => {
     // console.log('Unchecked event ID:', currentEventId);
     setLoading(true);
-    await axios.put(url + "/admin/reject/" + currentEventId).then((resp) => {
-      setEvents(events.filter(item => item._id !== currentEventId));
-      alert(resp.data.message);
-    }).catch((e) => {
-      alert("Error in Rejecting This Event. Try Again Later.");
-      console.log(e);
-    }).finally(() => {
-      setLoading(false);
-    });
+    await axios
+      .put(url + "/admin/reject/" + currentEventId)
+      .then((resp) => {
+        setEvents(events.filter((item) => item._id !== currentEventId));
+        alert(resp.data.message);
+      })
+      .catch((e) => {
+        alert("Error in Rejecting This Event. Try Again Later.");
+        console.log(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     setShowApproveDialog(false);
 
     // setCheckedEvents(prev => ({ ...prev, [currentEventId]: false }));
@@ -235,14 +244,14 @@ const Orders = () => {
   const cancelCancel = () => setShowCancelDialog(false);
 
   return (
-    <div className='container gap-3 pt-3'>
+    <div className="container gap-3 pt-3">
       <SearchAndFilters handleSearchDataChange={handleSearchDataChange} />
       {loading && <Loader />}
       {/* Latest Events Table */}
       <h2>Latest Events</h2>
       <div className="table-container border">
         <table className="table table-bordered table-hover m-0">
-          <thead className='sticky-top'>
+          <thead className="sticky-top">
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Name</th>
@@ -256,16 +265,18 @@ const Orders = () => {
               <th scope="col">View</th>
               <th scope="col">Delete</th>
               <th scope="col">Approve</th>
+              <th scope="col">Approval Time</th>
               {/* <th  scope="col">Approval Time</th> */}
             </tr>
           </thead>
           <tbody>
-            {latestEvents.length ? latestEvents.map(event => (
-              <tr key={event._id}>
-               <td>{event._id.slice(-5)}</td>
-                <td>{event.eventName}</td>
-                <td>{event.hostName}</td>
-                <td>
+            {latestEvents.length ? (
+              latestEvents.map((event) => (
+                <tr key={event._id}>
+                  <td>{event._id.slice(-5)}</td>
+                  <td>{event.eventName}</td>
+                  <td>{event.hostName}</td>
+                  <td>
                     {new Date(event.startDate).toLocaleDateString("en-IN", {
                       day: "2-digit",
                       month: "2-digit",
@@ -287,28 +298,65 @@ const Orders = () => {
                       minute: "2-digit",
                     })} */}
                   </td>
-                {/* <td><a href={event.location} target="_blank" rel="noopener noreferrer">Map</a></td> */}
-                <td>{event.eventPrice === '0' ? 'Free' : `₹${event.eventPrice}`}</td>
-                <td>{event.bookings.length > 0 ? <button onClick={() => handleBookingsClick(event._id, event.eventName)}>See Bookings</button> : "NA"}</td>
-                <td>
-                  <Edit titleAccess='Edit Event' className='cursor-pointer' style={{ color: "#D26600" }} onClick={() => handleEditClick(event)} />
-                </td>
-                <td>
-                  <View onClick={() => handleClick(event._id)} titleAccess='View Event' className='cursor-pointer' style={{ color: "#D26600" }} />
-                </td>
-                <td>
-                  <Delete titleAccess='Delete Event' onClick={() => handleDeleteClick(event._id)} className='cursor-pointer' style={{ color: "#D26600" }} />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={event.approved || false}
-                    onChange={() => handleCheckboxChange(event._id)}
-                  />
-                </td>
-                {/* <td>{event.approvalTime}</td> */}
-              </tr>
-            )) : (
+                  {/* <td><a href={event.location} target="_blank" rel="noopener noreferrer">Map</a></td> */}
+                  <td>
+                    {event.eventPrice === "0" ? "Free" : `₹${event.eventPrice}`}
+                  </td>
+                  <td>
+                    {event.bookings.length > 0 ? (
+                      <button
+                        onClick={() =>
+                          handleBookingsClick(event._id, event.eventName)
+                        }
+                      >
+                        See Bookings
+                      </button>
+                    ) : (
+                      "NA"
+                    )}
+                  </td>
+                  <td>
+                    <Edit
+                      titleAccess="Edit Event"
+                      className="cursor-pointer"
+                      style={{ color: "#D26600" }}
+                      onClick={() => handleEditClick(event)}
+                    />
+                  </td>
+                  <td>
+                    <View
+                      onClick={() => handleClick(event._id)}
+                      titleAccess="View Event"
+                      className="cursor-pointer"
+                      style={{ color: "#D26600" }}
+                    />
+                  </td>
+                  <td>
+                    <Delete
+                      titleAccess="Delete Event"
+                      onClick={() => handleDeleteClick(event._id)}
+                      className="cursor-pointer"
+                      style={{ color: "#D26600" }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={event.approved || false}
+                      onChange={() => handleCheckboxChange(event._id)}
+                    />
+                  </td>
+                  <td>
+                    {event.approvedAt
+                      ? new Date(event.approvedAt).toLocaleString("en-IN", {
+                          timeZone: "Asia/Kolkata", // Indian Standard Time (IST) zone
+                        })
+                      : "Not Available"}
+                  </td>
+                  {/* <td>{event.approvalTime}</td> */}
+                </tr>
+              ))
+            ) : (
               <tr>
                 <td colSpan="10">No pending approvals</td>
               </tr>
@@ -321,7 +369,7 @@ const Orders = () => {
       <h2>Past Events</h2>
       <div className="table-container pb-5">
         <table className="table table-bordered table-hover m-0">
-          <thead className='sticky-top'>
+          <thead className="sticky-top">
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Name</th>
@@ -338,42 +386,64 @@ const Orders = () => {
             </tr>
           </thead>
           <tbody>
-            {pastEvents.map(event => (
+            {pastEvents.map((event) => (
               <tr key={event._id}>
                 <td>{event._id.slice(-5)}</td>
                 <td>{event.eventName}</td>
                 <td>{event.hostName}</td>
                 <td>
-                    {new Date(event.startDate).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}{" "}
-                    {/* {new Date(event.startTime).toLocaleTimeString("en-IN", {
+                  {new Date(event.startDate).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}{" "}
+                  {/* {new Date(event.startTime).toLocaleTimeString("en-IN", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })} */}
-                  </td>
-                  <td>
-                    {new Date(event.endDate).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}{" "}
-                    {/* {new Date(event.endTime).toLocaleTimeString("en-IN", {
+                </td>
+                <td>
+                  {new Date(event.endDate).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}{" "}
+                  {/* {new Date(event.endTime).toLocaleTimeString("en-IN", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })} */}
-                  </td>
+                </td>
                 {/* <td><a href={event.location} target="_blank" rel="noopener noreferrer">Map</a></td> */}
-                <td>{event.eventPrice === '0' ? 'Free' : `₹${event.eventPrice}`}</td>
-                <td><button onClick={() => handleBookingsClick(event._id, event.eventName)}>See Bookings</button></td>
+                <td>
+                  {event.eventPrice === "0" ? "Free" : `₹${event.eventPrice}`}
+                </td>
+                <td>
+                  <button
+                    onClick={() =>
+                      handleBookingsClick(event._id, event.eventName)
+                    }
+                  >
+                    See Bookings
+                  </button>
+                </td>
                 {/* <td>
                   <Edit titleAccess='Edit Event' onClick={() => handleEditClick(event)} className='cursor-pointer' style={{ color: "#D26600" }} />
                 </td> */}
-                <td><View titleAccess='View Event' onClick={() => handleClick(event._id)} className='cursor-pointer' style={{ color: "#D26600" }} /></td>
                 <td>
-                  <Delete onClick={() => handleDeleteClick(event._id)} titleAccess='Delete Event' className='cursor-pointer' style={{ color: "#D26600" }} />
+                  <View
+                    titleAccess="View Event"
+                    onClick={() => handleClick(event._id)}
+                    className="cursor-pointer"
+                    style={{ color: "#D26600" }}
+                  />
+                </td>
+                <td>
+                  <Delete
+                    onClick={() => handleDeleteClick(event._id)}
+                    titleAccess="Delete Event"
+                    className="cursor-pointer"
+                    style={{ color: "#D26600" }}
+                  />
                 </td>
                 {/* <td>
                   <input

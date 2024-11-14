@@ -61,26 +61,32 @@ const Approve = () => {
   };
 
   const confirmApprove = async () => {
-    // console.log('Approved event ID:', currentEventId);
-
     setLoading(true);
-    await axios
-      .put(url + "/admin/approve/" + currentEventId)
-      .then((resp) => {
-        setPendingEvents(
-          pendingEvents.filter((item) => item._id !== currentEventId)
-        );
-        alert(resp.data.message);
-      })
-      .catch((e) => {
-        alert("Error in Approving This Event. Try Again Later.");
-        console.log(e);
-      })
-      .finally(() => {
-        setLoading(false);
+  
+    // Get the current date and time of approval
+    const approvalDate = new Date();
+  
+    try {
+      // Send the approval request with the current date and time
+      const response = await axios.put(url + "/admin/approve/" + currentEventId, {
+        approvalDate: approvalDate, // Include the approval timestamp
       });
+  
+      // Update the pending events list after approval
+      setPendingEvents(pendingEvents.filter((item) => item._id !== currentEventId));
+  
+      alert(response.data.message);
+    } catch (error) {
+      alert("Error in Approving This Event. Try Again Later.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  
+    // Close the approval dialog
     setShowApproveDialog(false);
   };
+  
 
   const confirmCancel = () => {
     console.log("Canceled event ID:", currentEventId);
