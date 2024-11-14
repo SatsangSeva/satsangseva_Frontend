@@ -22,44 +22,93 @@ const Orders = () => {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showUncheckDialog, setShowUncheckDialog] = useState(false); // New state for uncheck confirmation dialog
   const [currentEventId, setCurrentEventId] = useState(null);
+  const [latestEvents, setLatestEvents] = useState([]);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(url + '/events');
+  //       const eventsData = response.data.events;
+  //       console.log(eventsData);
+  
+  //       // Get today's date at the start of the day (no time component)
+  //       const today = new Date();
+  //       console.log(today);
+  //       today.setHours(0, 0, 0, 0); // Set to midnight to avoid time comparison issues
+  
+  //       // Filter for approved events with an end date greater than or equal to today
+  //       const filteredEvents = eventsData.filter(event => {
+  //         const eventEndDate = new Date(event.endDate);
+  //         console.log(eventEndDate)
+  //         eventEndDate.setHours(0, 0, 0, 0); // Set to midnight to compare only the date
+  
+  //         // Compare only the date (ignoring time component)
+  //         return event.approved && eventEndDate >= today;
+  //       });
+  
+  //       setEvents(filteredEvents);
+  //       console.log("Filtered Events:", filteredEvents);
+  
+  //       // Initialize checked events based on filtered events
+  //       const initialCheckedEvents = filteredEvents.reduce((acc, event) => {
+  //         acc[event._id] = true; // Only approved events are included
+  //         return acc;
+  //       }, {});
+  
+  //       setCheckedEvents(prevCheckedEvents => ({
+  //         ...prevCheckedEvents,
+  //         ...initialCheckedEvents
+  //       }));
+  //     } catch (error) {
+  //       console.error('Error fetching events:', error);
+  //     } finally {
+  //       setLoading(false); // Ensure loading state is updated in all cases
+  //     }
+  //   };
+  
+  //   fetchEvents();
+  // }, []);
+   
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchLatestEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(url + '/events');
-        const eventsData = response.data.events;
-        console.log(eventsData);
-        
-        // Filter for approved events with an end date greater than or equal to today
+        const response = await axios.get(url + '/events/latest');  // Use the 'latest' endpoint
+        const latestEventsData = response.data.events;
+  
+        // Filter for events that are approved and have endDate greater than or equal to today
         const today = new Date();
-        const filteredEvents = eventsData.filter(event => 
+        today.setHours(0, 0, 0, 0); // Remove the time component for comparison
+        const filteredLatestEvents = latestEventsData.filter(event => 
           event.approved && new Date(event.endDate) >= today
         );
-
-        setEvents(filteredEvents);
-        console.log(filteredEvents);
-
-        const initialCheckedEvents = filteredEvents.reduce((acc, event) => {
+  
+        setLatestEvents(filteredLatestEvents);
+  
+        // Set initial checked events based on the filtered latest events
+        const initialCheckedEvents = filteredLatestEvents.reduce((acc, event) => {
           if (event.approved) {
             acc[event._id] = true;
           }
           return acc;
         }, {});
-
+  
         setCheckedEvents(prevCheckedEvents => ({
           ...prevCheckedEvents,
           ...initialCheckedEvents
         }));
       } catch (error) {
-        console.error('Error fetching events:', error);
+        console.error('Error fetching latest events:', error);
       }
       setLoading(false);
     };
-
-    fetchEvents();
+  
+    fetchLatestEvents();
   }, []);
+  
+  
 
   useEffect(() => {
     const fetchPastEvents = async () => {
@@ -211,7 +260,7 @@ const Orders = () => {
             </tr>
           </thead>
           <tbody>
-            {events.length ? events.map(event => (
+            {latestEvents.length ? latestEvents.map(event => (
               <tr key={event._id}>
                <td>{event._id.slice(-5)}</td>
                 <td>{event.eventName}</td>
