@@ -71,26 +71,34 @@ const Perticular = () => {
       return alert("Invalid Contact Number!");
     }
     setLoading(true);
-    await axios
-      .post(url + "/booking", {
+    try {
+      await axios.post(`${url}/booking`, {
         event: eventId,
         attendeeContact: phoneNumber,
         noOfAttendee: noOfAttendees,
         amountPaid: "0",
         paymentId: null,
         user: userId,
-      })
-      .then((rep) => {
-        alert("Event Booked Successfully!");
-        navigate("/profile-page");
-      })
-      .catch((e) => {
-        alert("Error in booking: " + e);
-      })
-      .finally(() => {
-        setLoading(false);
       });
+      
+      alert("Event Booked Successfully!");
+      navigate("/profile-page");
+  
+      // Send WhatsApp message
+      const whatsappMessage = `Hello! Your booking for the event "${event.eventName}" has been confirmed. Details: Date: ${getDay(event.startDate)}, Location: ${event.eventAddress}. Thank you!`;
+  
+      await axios.post(`${url}/send-whatsapp`, {
+        to: `+91${phoneNumber}`,
+        message: whatsappMessage,
+      });
+  
+    } catch (e) {
+      alert("Error in booking: " + e);
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   const getDuration = (startDate, endDate) => {
     const start = new Date(startDate);
