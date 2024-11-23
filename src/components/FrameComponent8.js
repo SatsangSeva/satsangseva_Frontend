@@ -80,57 +80,74 @@ const FrameComponent8 = ({ className = "" }) => {
     if (disabled) {
       return onFormSubmit();
     }
+
     setLoading(true);
     setError("");
+
+    // Input validation
     if (
       formData.password !== formData.confirmPassword ||
       formData.password.trim() === ""
     ) {
       alert("Confirm Password doesn't match!");
-      return setLoading(false);
+      setLoading(false);
+      return;
     }
+
     if (!formData.name || formData.name.trim() === "") {
       alert("Enter your name");
-      return setLoading(false);
+      setLoading(false);
+      return;
     }
+
     if (!formData.phoneNumber || formData.phoneNumber.length !== 10) {
-      alert("Enter 10 Digit Phone Number.");
-      return setLoading(false);
+      alert("Enter a valid 10-digit phone number.");
+      setLoading(false);
+      return;
     }
-    await axios
-      .post(url + "/admin/verifysend/" + formData.phoneNumber)
-      .then((rep) => {
-        // console.log(rep);
-        setInputOtp(true);
-      })
-      .catch((e) => {
-        console.log(e);
+
+    if (!formData.email || !formData.email.includes("@")) {
+      alert("Enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Check if the phone number or email exists in the database
+      const checkResponse = await axios.get(
+        `${url}/checkuser?phoneNumber=${formData.phoneNumber}&email=${formData.email}`
+      );
+
+      if (checkResponse.status === 200 && checkResponse.data.exists) {
+        alert(checkResponse.data.message); // Use the message from the backend response
         setLoading(false);
-        return alert("Error in Sending OTP! Try Again.");
-      });
-    setLoading(false);
+        return;
+      }
+
+      // Send OTP if phone number and email do not exist
+      await axios.post(`${url}/admin/verifysend/${formData.phoneNumber}`);
+      alert("OTP sent successfully!");
+      setInputOtp(true);
+    } catch (err) {
+      console.error(err);
+      alert(
+        "Error occurred while checking the phone number or email, or sending OTP. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onFormSubmit = async () => {
-    // if (!disabled) {
-    //   alert("You have to sign in with Google.");
-    //   return setLoading(false);
-    // }
     setLoading(true);
     try {
-      const response = await axios
-        .post(url + "/user/signup", formData)
-        .then((resp) => {
-          alert("Account Created Successfully! Please Login.");
-          navigate("/login");
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Error in SignUp! " + error.data.message);
-        });
+      await axios.post(url + "/user/signup", formData);
+      alert("Account Created Successfully! Please Login.");
+      navigate("/login");
     } catch (err) {
-      // Handle errors
-      setError(err.response?.data?.message || "Something went wrong!");
+      const errorMessage =
+        err.response?.data?.message || "Something went wrong!";
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -149,7 +166,6 @@ const FrameComponent8 = ({ className = "" }) => {
       <div className="w-[512px] shadow-[0px_4px_35px_rgba(0,_0,_0,_0.08)] rounded-xl bg-white flex flex-col items-center justify-center py-[10px] pr-5 pl-5 align-items-center box-border gap-[20px] max-w-full z-[6] mq750:gap-[22px] mq1050:pb-[30px] mq1050:box-border mq450:pb-5 mq450:box-border">
         <div className="self-stretch flex flex-row items-center justify-center py-0 pr-px pl-[7px] box-border max-w-full">
           <div className="flex-1 flex flex-col items-center justify-center gap-[10px] max-w-full">
-            
             <div className="self-stretch flex flex-row flex-wrap items-start justify-around">
               <div className="flex-1 flex flex-col items-center justify-start min-w-[165px] shrink-0">
                 <div className="self-stretch h-[29.5px] flex justify-center relative w-full pl-10 shrink-0 z-[7]">
@@ -161,18 +177,18 @@ const FrameComponent8 = ({ className = "" }) => {
                 </h1>
               </div>
               <div className="flex gap-10">
-              {/* <div
+                {/* <div
                 onClick={() => navigate("/login")}
                 className="cursor-pointer relative text-smi inline-block shrink-0 z-[7] text-gray-200"
               >
                 <p className="m-0">Already have an account?</p>
                 <p className="m-0 text-cornflowerblue">Log In</p>
               </div> */}
-              <div className="w-full flex justify-end">
-              <Link to="/">
-                <IoIosCloseCircleOutline size={30} />
-              </Link>
-            </div>
+                <div className="w-full flex justify-end">
+                  <Link to="/">
+                    <IoIosCloseCircleOutline size={30} />
+                  </Link>
+                </div>
               </div>
             </div>
             <GoogleLogin
@@ -358,6 +374,12 @@ const FrameComponent8 = ({ className = "" }) => {
             </div>
           </div>
         </form>
+        {/* {signupData && (
+        <div>
+          <p>User ID: {signupData.id}</p>
+          <p>Created At: {new Date(signupData.createdAt).toLocaleString()}</p>
+        </div>
+      )} */}
       </div>
     </div>
   );
