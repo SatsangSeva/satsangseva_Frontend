@@ -178,7 +178,7 @@ const Footer = ({ className = "" }) => {
       <div className="w-full max-w-[1240px]   text-sm text-gray-100 font-montserrat">
         <hr className="border-t border-darkslateblue mb-3" />
         <div className="text-center">
-          <p className="leading-[23px]">Copyright © 2024 Satsang Seva</p>
+          <p className="leading-[23px]">©️ 2024 SatsangSeva made with 💖 by Campaigning Source, all rights reserved</p>
         </div>
       </div>
     </footer>
