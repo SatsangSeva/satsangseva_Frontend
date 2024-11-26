@@ -44,7 +44,7 @@ const FirstFold = ({
         <img
           className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
           alt=""
-          src="/rectangle-12@2x.png"
+          src="/rectangle-12@2x.webp"
         />
         <img
           className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover mix-blend-normal z-[2]"
@@ -70,7 +70,7 @@ const FirstFold = ({
               <img
                 className="absolute top-[0px] left-[152px] w-[472px] h-[466px] object-cover z-[4]"
                 alt=""
-                src="/assets-2@2x.png"
+                src="/assets-2@2x.webp"
               />
             </div>
             <div className="w-[451px] flex flex-col items-start justify-start pt-11 px-0 pb-0 box-border min-w-[451px] max-w-full ml-[-40px] mq750:min-w-full mq1050:flex-1 mq1050:ml-0">

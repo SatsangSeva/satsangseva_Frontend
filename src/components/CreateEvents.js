@@ -27,7 +27,7 @@ const CreateEvents = ({
         className="create-events-image"
         loading="lazy"
         alt=""
-        src="/untitled-design-3-1@2x.png"
+        src="/untitled-design-3-1@2x.webp"
       />
       <div className="create-events-content">
         <h1 className="create-events-heading">

@@ -8,7 +8,7 @@ import { HashLink } from "react-router-hash-link";
 const contentArray = [
   {
     index: 0,
-    imgSrc: "/assets-2@2x.png",
+    imgSrc: "/assets-2@2x.webp",
     heading: "Get yourself into the Real cause of Your Life",
     description: "Join us in the journey of spiritual enlightenment, where every word, melody, and moment brings you closer to inner peace.",
   },
@@ -46,7 +46,7 @@ const LandingPage = ({ className = "" }) => {
           <img
             className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
             alt=""
-            src="/rectangle-12@2x.png"
+            src="/rectangle-12@2x.webp"
           />
           <img
             className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover mix-blend-normal z-[1]"
