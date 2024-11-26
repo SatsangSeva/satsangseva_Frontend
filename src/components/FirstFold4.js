@@ -45,6 +45,7 @@ const FirstFold = ({
           className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
           alt=""
           src="/rectangle-12@2x.webp"
+           loading="lazy"
         />
         <img
           className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover mix-blend-normal z-[2]"

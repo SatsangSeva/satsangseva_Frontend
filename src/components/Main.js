@@ -22,6 +22,7 @@ const Main = ({ className = "" }) => {
             className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover"
             alt=""
             src="/rectangle-12@2x.webp"
+             loading="lazy"
           />
           <img
             className="absolute h-full w-full top-0 right-0 bottom-0 left-0 mix-blend-normal z-[1] object-cover"

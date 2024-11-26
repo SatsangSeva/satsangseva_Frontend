@@ -29,6 +29,7 @@ const FirstFold3 = ({
         <img
           className="absolute top-[0px] left-[0px] w-full h-full object-cover"
           alt=""
+          loading="lazy"
           src="/rectangle-12@2x.webp"
           style={{ bottom: '10px' }}  // Adjust this value as needed
         />
