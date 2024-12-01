@@ -18,7 +18,7 @@ const ContactUs2 = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:8000/api/send-email", formData);
+      const response = await axios.post("https://satsan-seva-backend.vercel.app/api/send-email", formData);
       alert(response.data); // Shows success message
       formRef.current.reset(); // Optionally reset the form
     } catch (error) {
