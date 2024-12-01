@@ -202,12 +202,16 @@ const AddProduct = () => {
                       />
                     </td>
                     <td>
-                      {new Intl.DateTimeFormat("en-IN", {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                        timeZone: "Asia/Kolkata",
-                      }).format(new Date(user.createdAt))}
-                    </td>
+  {user.createdAt ? (
+    new Intl.DateTimeFormat('en-IN', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+      timeZone: 'Asia/Kolkata',
+    }).format(new Date(user.createdAt))
+  ) : (
+    'N/A' // Show "N/A" if `createdAt` is not available
+  )}
+</td>
                   </tr>
                 );
               })}
