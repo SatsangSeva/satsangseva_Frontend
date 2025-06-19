@@ -451,7 +451,6 @@ const UpdateEvent = () => {
                         variant="outlined"
                         value={formValues.eventLink}
                         onChange={handleInputChange}
-                        required
                     />
                     <TextField
                         label="Location Link"
@@ -616,14 +615,12 @@ const UpdateEvent = () => {
                                     name="subEvent"
                                     value={item.subEvent}
                                     onChange={(e) => handleAgendaChange(index, "subEvent", e.target.value)}
-                                    required
                                 />
                                 <TextField
                                     label="Title"
                                     name="title"
                                     value={item.title}
                                     onChange={(e) => handleAgendaChange(index, "title", e.target.value)}
-                                    required
                                 />
                                 <TextField
                                     label="Description"
@@ -632,7 +629,6 @@ const UpdateEvent = () => {
                                     onChange={(e) => handleAgendaChange(index, "description", e.target.value)}
                                     multiline
                                     rows={2}
-                                    required
                                 />
                             </div>
                             {formValues.eventAgenda.length > 1 && (

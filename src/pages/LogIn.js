@@ -151,7 +151,8 @@ const LogIn = () => {
       .then((resp) => {
         // console.log(resp);
         alert("Phone Number Verified Successfully! Reseting Your Password.");
-        handleLogin(true);
+        // handleLogin(true);
+        setForgotPassword(false)
       })
       .catch((e) => {
         let err = "";

@@ -171,6 +171,8 @@ const EventListing = ({ className = "" }) => {
         headers,
       });
 
+      console.log(resp)
+
       // Get today's date
       const today = new Date();
 

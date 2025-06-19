@@ -490,7 +490,6 @@ const CreateEventComponent = () => {
     let newData = {
       eventName: formValues.eventName,
       eventCategory: formValues.eventCategory,
-      approved: true,
       eventDesc: formValues.eventDesc,
       eventPrice: formValues.eventType === "free" ? "0" : formValues.eventPrice,
       eventLang: formValues.eventLang,
@@ -728,7 +727,6 @@ const CreateEventComponent = () => {
                 onChange={handleInputChange}
                 placeholder="Enter Event Link"
                 className="w-full p-2 border border-gray-300 rounded"
-                required
               />
             </div>
             {/* Free/Paid Toggle */}
@@ -1063,7 +1061,6 @@ const CreateEventComponent = () => {
                       value={item.subEvent}
                       onChange={(e) => handleAgendaChange(index, "subEvent", e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded"
-                      required
                     />
                   </div>
                   <div className="mb-2">
@@ -1073,7 +1070,6 @@ const CreateEventComponent = () => {
                       value={item.title}
                       onChange={(e) => handleAgendaChange(index, "title", e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded"
-                      required
                     />
                   </div>
                   <div className="mb-2">
@@ -1083,7 +1079,6 @@ const CreateEventComponent = () => {
                       onChange={(e) => handleAgendaChange(index, "description", e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded"
                       rows="3"
-                      required
                     ></textarea>
                     {agendaItems.length > 1 && (
                       <button
