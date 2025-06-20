@@ -107,8 +107,8 @@ const EventListing = ({ className = "" }) => {
       setPage(1);
       setHasMore(true);
       setTimeout(() => {
-        // fetchNearBy(1);
-        fetchEvents(1);
+        fetchNearBy(1);
+        // fetchEvents(1);
       }, 1000);
     }
   }, [position, useNearbySearch]);
@@ -171,7 +171,6 @@ const EventListing = ({ className = "" }) => {
         headers,
       });
 
-      console.log(resp)
 
       // Get today's date
       const today = new Date();
@@ -503,6 +502,7 @@ const EventListing = ({ className = "" }) => {
                     }
                     event={e}
                     title={e.eventName}
+                    distance={e.distanceInKm}
                     date={e.startDate}
                     endDate={e.endDate}
                     address={e.eventAddress}
