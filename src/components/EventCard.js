@@ -11,9 +11,7 @@ const EventCard = ({
   date,
   endDate,
   address,
-  imgSrc,
-  aPR,
-  emptyMonth,
+  distance,
   propHeight,
   propMinWidth,
   propWidth,
@@ -136,8 +134,9 @@ const EventCard = ({
             </div>
           </div>
           <div className="w-[241.6px] flex flex-col items-start justify-start gap-[9px] text-left text-base text-black">
-            <b className="self-stretch relative leading-[150%] z-[1]">
+            <b className="self-stretch relative leading-[150%] z-[1] d-flex justify-between">
               {title ? title : "Sadhguru World Tour San Francisco"}
+              
             </b>
             <div className="flex flex-col items-start justify-start gap-[3px] text-2xs font-poppins">
               <div className="relative font-medium pr-1 z-[1]">
@@ -151,6 +150,11 @@ const EventCard = ({
                 {endDate
                   ? getDuration(event.startDate, event.endDate)
                   : "(2Hrs, 25Mins)"}
+              </div>
+              <div className="relative text-xs font-medium whitespace-nowrap z-[1]">
+                 <b className="self-stretch relative leading-[150%] z-[1]">
+              Distance : {distance ? `${distance} Km` : "0Km"}
+            </b>
               </div>
             </div>
           </div>
