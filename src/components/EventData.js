@@ -289,9 +289,22 @@ const EventData = ({ event: initialEvent = null }) => {
                 [Get Direction]
               </a>
             </p>
-            <div className="map-container">
-              {/* Map component or iframe goes here */}
-            </div>
+             <div className="map-container" style={{ width: "100%", height: "300px", marginTop: "10px" }}>
+  {eventData?.address && (
+    <iframe
+      width="100%"
+      height="100%"
+      frameBorder="0"
+      style={{ border: 0 }}
+      src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCL1tHqIArMfMJUICjD0feQQbl-yNLx3SY&q=${encodeURIComponent(
+        `${eventData.address.address}, ${eventData.address.city}, ${eventData.address.state}`
+      )}`}
+      allowFullScreen
+      loading="lazy"
+      title="Event Location"
+    ></iframe>
+  )}
+</div>
           </div>
         </div>
       </div>
